@@ -13,9 +13,18 @@ const supabaseApi = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseApi)
 
 const router = express.Router();
-app.use(cors({
-  origin:'https://blog-thought.onrender.com/'
-}))
+if (process.env.NODE_ENV === 'development') {
+  // Enable CORS for development mode
+  app.use(cors({
+    origin: 'http://localhost:5173/'
+  }));
+}
+else{
+
+  app.use(cors({
+    origin:'https://blogthought.netlify.app/'
+  }))
+}
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
