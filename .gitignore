@@ -20,7 +20,9 @@ frontend/build
 *dist
 d*ist-ssr
 *.local
-.env
+frontend/.env/
+backend/.env/
+
 
 
 # Editor directories and files
