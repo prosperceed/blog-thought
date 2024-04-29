@@ -14,7 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseApi)
 
 const router = express.Router();
 app.use(cors({
-  origin:'http://localhost:5173'
+  origin:'https://blogthought.netlify.app/'
 }))
 app.use(express.json())
 app.use(bodyParser.json())
