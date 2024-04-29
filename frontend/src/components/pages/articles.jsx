@@ -11,7 +11,7 @@ function Articles() {
         queryKey: [],
         queryFn: async () => {
             try {
-                const response = await axios.get(`https://blog-thought.onrender.com//article/`+ id)
+                const response = await axios.get(`https://blog-thought.onrender.com/article/`+ id)
                 return response.data
             } catch (error) {
                 throw new Error('Error fetching article:', error)

@@ -25,7 +25,7 @@ const articles = useQuery({
   queryKey: ['/'],
 
   queryFn: async ()=>{
-    const response = await axios.get("https://blog-thought.onrender.com//")
+    const response = await axios.get("https://blog-thought.onrender.com/")
     const data = await response.data
     console.log(data);
     return data
