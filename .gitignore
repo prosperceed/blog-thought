@@ -23,7 +23,7 @@ d*ist-ssr
 frontend/.env
 backend/.env
 
-
+frontend/prisma/
 
 # Editor directories and files
 .vscode/*
