@@ -20,14 +20,11 @@ frontend/build
 *dist
 d*ist-ssr
 *.local
-.env 
-frontend/*.env
-backend/*.env
+.env
 
 
 # Editor directories and files
 .vscode/*
-frontend/.vscode/*
 
 *!.vscode/extensions.json
 .idea
