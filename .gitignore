@@ -11,6 +11,11 @@ lerna-debug.log*
 frontend/node_modules/
 backend/node_modules/
 
+backend/package-lock.json
+frontend/package-lock.json
+
+
+
 # testing
 frontend/coverage
 

@@ -9,7 +9,7 @@ function post() {
 const [formData, setFormData] = useState({title: "", body: "", author: ""})
 const navigate = useNavigate()
 
-const apiUrl = 'http://localhost:8000/post';
+const apiUrl = 'https://blog-thought.onrender.com//post';
 const createPost = async (postData) => {
   try {
     const response = await axios.post(apiUrl, postData);
