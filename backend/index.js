@@ -1,11 +1,12 @@
 // const express = require("express") 
-import express from "express"
+import express, { response } from "express"
 // const {createClient} = require("@supabase/supabase-js")c
 import { createClient } from "@supabase/supabase-js"
 // const cors = require("cors")
 import cors from "cors"
 // const bodyParser = require("body-parser")
 import bodyParser from "body-parser"
+
 
 const app = express()
 
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
   // Enable CORS for development mode
 
   app.use(cors({
-    origin: 'https://blog-thought.onrender.com/'
+    origin: 'https://blog-thought.onrender.com'
   }));
 }
 
@@ -31,6 +32,14 @@ else{
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with your frontend URL
+  res.header('Access-Control-Allow-Credentials', true); // Allow credentials (cookies)
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Specify allowed methods
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Specify allowed headers
+  next();
+});
 
 
 app.get("/", async (req,res)=>{
@@ -101,6 +110,15 @@ app.get("/article/:id", async (req, res) => {
       res.status(500).json({error: "Internal server error"})
     }
   })
+
+
+
+  // Create Account route
+  app.get('/auth/google', (request, response) => {
+    response.redirect(supabase.auth.signInWithOAuth({
+      provider: 'google'
+    }));
+  });
   
 
 app.listen(8000,()=>{

@@ -56,9 +56,9 @@ return <h1>Error loading articles</h1>
     : (
       <>
       <Navbar/>
-      <div className="w-[90%] py-9 grid md:grid-cols-2 grid-cols-1 h-[100vh] gap-4 lg:gap-8 justify-center items-center mx-auto bg-late-300">
+      <div className="my-9 grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 grid-cols-1 h-[100vh] gap-3 lg:gap-4 justify-center items-center mx-auto">
         {articles.data.map((item)=>(
-          <div key={item.id} className="card w-96 bg-primary text-primary-content">
+          <div key={item.id} className="card w-96 mx-auto bg-primary text-primary-content">
 <div className="card-body">
   <div className="flex justify-between">
 
