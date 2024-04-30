@@ -1,7 +1,11 @@
-const express = require("express") 
-const {createClient} = require("@supabase/supabase-js")
-const cors = require("cors")
-const bodyParser = require("body-parser")
+// const express = require("express") 
+import express from "express"
+// const {createClient} = require("@supabase/supabase-js")c
+import { createClient } from "@supabase/supabase-js"
+// const cors = require("cors")
+import cors from "cors"
+// const bodyParser = require("body-parser")
+import bodyParser from "body-parser"
 
 const app = express()
 
