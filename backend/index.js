@@ -16,13 +16,14 @@ if (process.env.NODE_ENV === 'development') {
   // Enable CORS for development mode
 
   app.use(cors({
-    origin: 'http://localhost:5173/'
+    origin: 'https://blog-thought.onrender.com/'
   }));
 }
-else{
 
+else{
   app.use(cors());
 }
+
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
