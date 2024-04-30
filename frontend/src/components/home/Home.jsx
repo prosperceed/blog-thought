@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import Navbar from '../header/Navbar'
 import moment from "moment"
+import { config } from '../../lib/config'
 
 
 // const [data, setData] = useState({})
@@ -25,7 +26,7 @@ const articles = useQuery({
   queryKey: ['/'],
 
   queryFn: async ()=>{
-    const response = await axios.get("https://blog-thought.onrender.com/")
+    const response = await axios.get("https://blog-thought.onrender.com/", config)
     const data = await response.data
     console.log(data);
     return data

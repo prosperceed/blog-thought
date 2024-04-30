@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
+import { config } from '../../lib/config'
 
 function Articles() {
 
@@ -11,7 +12,7 @@ function Articles() {
         queryKey: [],
         queryFn: async () => {
             try {
-                const response = await axios.get(`https://blog-thought.onrender.com/article/`+ id)
+                const response = await axios.get(`https://blog-thought.onrender.com/article/`+ id, config)
                 return response.data
             } catch (error) {
                 throw new Error('Error fetching article:', error)

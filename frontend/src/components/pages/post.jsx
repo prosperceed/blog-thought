@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import {  useNavigate } from 'react-router-dom'
+import { config } from '../../lib/config'
 
 
 
@@ -12,7 +13,7 @@ const navigate = useNavigate()
 const apiUrl = 'https://blog-thought.onrender.com/post';
 const createPost = async (postData) => {
   try {
-    const response = await axios.post(apiUrl, postData);
+    const response = await axios.post(apiUrl,config, postData);
     return response.data;
   } catch (error) {
     throw new Error('Error creating post:', error);
