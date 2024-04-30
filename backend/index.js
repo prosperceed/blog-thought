@@ -1,5 +1,4 @@
 const express = require("express") 
-const {Client} =  require("pg")
 const {createClient} = require("@supabase/supabase-js")
 const cors = require("cors")
 const bodyParser = require("body-parser")
@@ -15,15 +14,14 @@ const supabase = createClient(supabaseUrl, supabaseApi)
 const router = express.Router();
 if (process.env.NODE_ENV === 'development') {
   // Enable CORS for development mode
+
   app.use(cors({
     origin: 'http://localhost:5173/'
   }));
 }
 else{
 
-  app.use(cors({
-    origin:'https://blogthought.netlify.app/'
-  }))
+  app.use(cors());
 }
 app.use(express.json())
 app.use(bodyParser.json())
