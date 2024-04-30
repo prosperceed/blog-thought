@@ -34,7 +34,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with your frontend URL
+  res.header('Access-Control-Allow-Origin', 'https://blogthought.netlify.app'); // Replace with your frontend URL
   res.header('Access-Control-Allow-Credentials', true); // Allow credentials (cookies)
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Specify allowed methods
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Specify allowed headers
