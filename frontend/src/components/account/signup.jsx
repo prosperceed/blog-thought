@@ -5,30 +5,25 @@ import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 
 
+
 function SignUp() {
 
   const GOOGLE_AUTH_URL = 'https://blog-thought.onrender.com/auth/google';
   
-  const googleAuthMutation = useMutation(async () => {
-    // Make the API call to your backend route
-    const response = await fetch(GOOGLE_AUTH_URL, {
-      method: 'GET',
-      credentials: 'include', // Include cookies for authentication
-    });
-
-    if (!response.ok) {
-      throw new Error('Google authentication failed');
+  const handleGoogleAuth = async () => {
+    try {
+      // Make the API call to your backend route
+      const response = await axios.get(GOOGLE_AUTH_URL, {
+        withCredentials: true, // Include cookies for authentication
+      });
+  
+      // Redirect to Google for authentication
+      window.location.href = response.data.redirectUrl;
+    } catch (error) {
+      console.error('Google authentication failed:', error.message);
+      // Handle error (e.g., show an error message to the user)
     }
-
-    // Redirect to Google for authentication
-    window.location.href = response.url;
-  });
-
-  const handleGoogleAuth = () => {
-    
-    googleAuthMutation.mutate();
   };
-
   return (
     <div className="flex justify-center items-center h-screen ">
         <div className="card w-96 bg-base-100 shadow-xl">

@@ -116,10 +116,10 @@ app.get("/article/:id", async (req, res) => {
 
 
   // Create Account route
-  router.get('/auth/google', async (req, res) => {
+  app.get('/auth/google', async (req, res) => {
     try {
       // Redirect the user to Google's consent screen
-      const { error } = await supabaseClient.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
       });
   
@@ -128,7 +128,7 @@ app.get("/article/:id", async (req, res) => {
         res.status(500).send('Google authentication failed');
       } else {
         // The user will be redirected to Google for authentication
-        res.redirect('/');
+        res.redirect('/home');
       }
     } catch (error) {
       console.error('Error during Google authentication:', error.message);
