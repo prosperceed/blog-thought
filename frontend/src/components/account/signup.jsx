@@ -25,6 +25,7 @@ function SignUp() {
   });
 
   const handleGoogleAuth = () => {
+    
     googleAuthMutation.mutate();
   };
 

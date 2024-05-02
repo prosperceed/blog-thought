@@ -19,7 +19,7 @@ import SignIn from './components/account/signin';
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>
+    element: <SignUp/>
   },
   {
     path: "/post",
@@ -30,8 +30,8 @@ const routes = createBrowserRouter([
     element: <Articles/>
   },
   {
-    path: "/signup",
-    element: <SignUp/>
+    path: "/home",
+    element: <Home/>
   },
   {
     path: "/signin",

@@ -13,6 +13,7 @@ const app = express()
 const supabaseUrl = "https://rzgiicwrerqxfqppofjr.supabase.co"
 const supabaseApi = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6Z2lpY3dyZXJxeGZxcHBvZmpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE1Nzg4NzgsImV4cCI6MjAyNzE1NDg3OH0.2VOZPs-W9OQE2P7TT0RkfBfOuolMgTNIuFO-oAggUCQ"
 
+const PORT = 3000 || process.env.PORT
 
 const supabase = createClient(supabaseUrl, supabaseApi)
 
@@ -34,7 +35,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://blogthought.netlify.app'); // Replace with your frontend URL
+  // Replace with your frontend URL
+  res.header('Access-Control-Allow-Origin', 'https://blogthought.netlify.app'); 
   res.header('Access-Control-Allow-Credentials', true); // Allow credentials (cookies)
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Specify allowed methods
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Specify allowed headers
@@ -114,13 +116,27 @@ app.get("/article/:id", async (req, res) => {
 
 
   // Create Account route
-  app.get('/auth/google', (request, response) => {
-    response.redirect(supabase.auth.signInWithOAuth({
-      provider: 'google'
-    }));
+  router.get('/auth/google', async (req, res) => {
+    try {
+      // Redirect the user to Google's consent screen
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+      });
+  
+      if (error) {
+        console.error('Google authentication failed:', error.message);
+        res.status(500).send('Google authentication failed');
+      } else {
+        // The user will be redirected to Google for authentication
+        res.redirect('/');
+      }
+    } catch (error) {
+      console.error('Error during Google authentication:', error.message);
+      res.status(500).send('Error during Google authentication');
+    }
   });
   
-
-app.listen(8000,()=>{
-console.log("App running on port 8000");
+app.listen(PORT,()=>{
+console.log(`App running on port ${PORT}`);
 })
+
