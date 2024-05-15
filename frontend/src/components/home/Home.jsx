@@ -1,17 +1,28 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import Navbar from '../header/Navbar'
 import moment from "moment"
 import { config } from '../../lib/config'
-
-
-// const [data, setData] = useState({})
-
-
+import supabase from '../../lib/supabase-config'
 
 const Home = () => {
+
+  useEffect(()=>{
+    const fetchUser = async ()=>{
+      // const res = await axios.get("/auth")
+      const {data, error} = await supabase.from("auth.users")
+      .select("*")
+      .single()
+      if(error){
+        throw error
+      }
+      console.log(data)
+      return data
+    }
+    fetchUser()
+  },[])
 
   const textStyle = {
     maxWidth: '100%',

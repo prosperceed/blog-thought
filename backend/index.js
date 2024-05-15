@@ -1,10 +1,7 @@
-// const express = require("express") 
+
 import express, { response } from "express"
-// const {createClient} = require("@supabase/supabase-js")c
 import { createClient } from "@supabase/supabase-js"
-// const cors = require("cors")
 import cors from "cors"
-// const bodyParser = require("body-parser")
 import bodyParser from "body-parser"
 
 
@@ -33,6 +30,16 @@ else{
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+
+
+// Middleware to store user data in req.user
+app.use((req, res, next) => {
+  req.user = {
+    id: 'user-id', // Retrieve user ID from session or token
+  };
+  next();
+});
+
 
 app.use((req, res, next) => {
   // Replace with your frontend URL
@@ -116,24 +123,34 @@ app.get("/article/:id", async (req, res) => {
 
 
   // Create Account route
-  app.get('/auth/google', async (req, res) => {
-    try {
-      // Redirect the user to Google's consent screen
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-      });
-  
-      if (error) {
-        console.error('Google authentication failed:', error.message);
-        res.status(500).send('Google authentication failed');
-      } else {
-        // The user will be redirected to Google for authentication
-        res.redirect('/home');
-      }
-    } catch (error) {
-      console.error('Error during Google authentication:', error.message);
-      res.status(500).send('Error during Google authentication');
+
+  const getUser = async (userId)=>{
+    const {data, error} = await supabase.from("auth.users")
+    .select("*")
+    .eq("id", userId)
+    .single()
+    if(error){
+      throw error
     }
+    return data
+  }
+
+  app.get('/auth', async (req, res) => {
+    const userId = req.user.id
+    try {
+      const userData = await getUser(userId)
+     if(userData && getUser()){
+      res.send("Protected route passed!")
+     }
+     else{
+      res.status(401).send("Unauthorized")
+     }
+
+      }
+    catch (error) {  
+      console.log("Error fetching user data", error.message);
+      res.status(500).send("Internal Server error")
+      }
   });
   
 app.listen(PORT,()=>{

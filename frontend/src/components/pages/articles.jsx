@@ -38,7 +38,7 @@ function Articles() {
                            <p>~ {article.author}</p>
                         </div>
                         <a className="btn text-primary mt-8 w-1/2">
-                        <Link className="text-white" to="/">See all articles...</Link>
+                        <Link className="text-white" to="/home">See all articles...</Link>
                         </a>
                     </div>
                 </div>
