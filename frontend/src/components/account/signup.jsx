@@ -15,6 +15,9 @@ const handleAuth = async ()=>{
       
     const { error, data } = await supabase.auth.signInWithOAuth({
       provider: 'google',
+      options: {
+      
+      }
     });
     
     if (error) {
