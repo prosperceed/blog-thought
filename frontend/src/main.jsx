@@ -12,12 +12,8 @@ import Articles from "./components/pages/articles"
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import SignUp from './components/account/signup';
 import SignIn from './components/account/signin';
-import supabase from './lib/supabase-config';
+// import supabase from './lib/supabase-config';
 
-
-const user = supabase.auth.getUser
-
-console.log(user);
 
 
 const routes = createBrowserRouter([

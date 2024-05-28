@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 // Middleware to store user data in req.user
 app.use((req, res, next) => {
   req.user = {
-    id: 'user-id', // Retrieve user ID from session or token
+    id: 'user-id',
   };
   next();
 });

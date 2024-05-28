@@ -9,20 +9,20 @@ import supabase from '../../lib/supabase-config'
 
 const Home = () => {
 
-  useEffect(()=>{
-    const fetchUser = async ()=>{
-      // const res = await axios.get("/auth")
-      const {data, error} = await supabase.from("auth.users")
-      .select("*")
-      .single()
-      if(error){
-        throw error
-      }
-      console.log(data)
-      return data
-    }
-    fetchUser()
-  },[])
+  // useEffect(()=>{
+  //   const fetchUser = async ()=>{
+  //     const res = await axios.get("/auth")
+  //     const {data, error} = await supabase.from("auth.users")
+  //     .select("*")
+  //     .single()
+  //     if(error){
+  //       throw error
+  //     }
+  //     console.log(data)
+  //     return data
+  //   }
+  //   fetchUser()
+  // },[])
 
   const textStyle = {
     maxWidth: '100%',
