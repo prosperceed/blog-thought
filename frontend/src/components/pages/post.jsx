@@ -1,50 +1,112 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import {  useNavigate } from 'react-router-dom'
 import { config } from '../../lib/config'
-
+import {v4 as uuidv4} from "uuid"
+import supabase from '../../lib/supabase-config'
+import {useUser} from '@supabase/auth-helpers-react'
 
 
 function post() {
-const [formData, setFormData] = useState({title: "", body: "", author: ""})
+const [formData, setFormData] = useState({title: "", body: "", author: "", image:""})
+const [image, setImage] = useState([])
+const [user, setUser] = useState([])
 const navigate = useNavigate()
 
+
+
+useEffect(()=>{
+  const userData = supabase.auth.getUser()
+  .then(data =>{
+    setUser(data.data.user)
+    console.log(data.data.user.id);
+  })
+
+},[])
+
+const imgURL = "https://rzgiicwrerqxfqppofjr.supabase.co/storage/v1/object/public/images/"
+
+const getImages = async ()=>{
+  const {data, error} = await supabase
+  .storage
+  .from('images')
+  .list(user?.id + "/", {
+    limit: 100,
+    offset: 0,
+    sortBy: {column: "name", order: "asc"}
+  })
+  if(data){
+    // setImage(data)  
+  }
+  else{
+    console.log("Could'nt fetch that image");
+  }
+}
+
+const handleImage = async (e)=>{
+  let file = e.target.files[0]
+
+  const {data, error} = await supabase
+  .storage
+  .from('images')
+  .upload(user.id + '/' + uuidv4(), file)
+
+  if(data){
+    getImages()
+    setImage(data.path)
+  }
+  else{
+    console.log("Error uploading image")
+    return file
+  }
+}
+
 const apiUrl = 'https://blog-thought.onrender.com/post';
-const createPost = async (postData) => {
+const createPost = async () => {
+
+
   try {
-    const response = await axios.post(apiUrl,config, postData);
-    return response.data;
+    handleImage()
+    const { data: postData, error: postError } = await axios.post(apiUrl,{
+      title: formData.title,
+      author: formData.author,
+      body: formData.body,
+      image: imgURL + image
+    });
+
+    console.log(imgURL + image);
+
+    if (postError) {
+      throw new Error('Error saving blog post');
+    }
+
+    // Reset form data after successful submission
+    setFormData({ title: '', body: '', author: '', image: null });
+    return postData
+
+    // navigate('/home'); 
   } catch (error) {
-    throw new Error('Error creating post:', error);
+    console.error('Error submitting blog post:', error.message);
+    // Handle error display or notification
   }
 };
 
 const mutation = useMutation(createPost, {
   onSuccess: () => {
     console.log('Post created successfully!');
-        // navigate("/");
+    // navigate('/home');
   },
   onError: (error) => {
     console.error('Error creating post:', error);
   },
 });
 
-const handleSubmit =  (event)=>{
-  // event.preventDefault()
-  // console.log(formData);
-  //  try{
-  //   const response = await axios.post(apiUrl,formData)
-  //   console.log("Response", response.data);
-  //   navigate("/")
-
-  //  }
-  //  catch (error){
-  //   console.log("Error submitting your request", error);
-  //  }
+const handleSubmit = (event) => {
   event.preventDefault();
   mutation.mutate(formData);
-}
+};
+
 
 
   return (
@@ -64,6 +126,10 @@ const handleSubmit =  (event)=>{
     <div class="mb-2">
       <label class="block text-slate-700 text-sm font-bold mb-2" for="password">Content</label>
       <textarea value={formData.body} onChange={(e)=> setFormData({...formData, body: e.target.value})} htmlFor="body" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Message"></textarea>
+    </div>
+    <div class="mb-2">
+      <label class="block text-slate-700 text-sm font-bold mb-2" for="password">Image</label>
+      <input onChange={(e) => handleImage(e)}  class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline" type="file"/>
     </div>
     <div class="flex items-center justify-center">
       <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">{mutation.isLoading ? "Sending..." : "Submit"}</button>

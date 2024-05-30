@@ -10,24 +10,23 @@ function SignUp() {
 
 const navigate = useNavigate()
 
-const handleAuth = async ()=>{
-  try {
-      
-    const { error, data } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-    
-    if (error) {
-      console.error('Google authentication failed:', error.message);
-    } else {
-      navigate('/home');
-      console.log(data.url);
-      return data
+const handleAuth = async () => {
+    try {
+      const { error, data } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+
+      if (error) {
+        console.error('Google authentication failed:', error.message);
+      } else {
+        
+        navigate("/home")
+        return data
+      }
+    } catch (error) {
+      console.error('Error during Google authentication:', error.message);
     }
-  } catch (error) {
-    console.error('Error during Google authentication:', error.message);
-  }
-}
+  };
 
 
   return (
