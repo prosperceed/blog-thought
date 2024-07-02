@@ -69,9 +69,11 @@ return <h1>Error loading articles</h1>
       <Navbar/>
       <div className="my-9 grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 grid-cols-1 h-[100vh] gap-3 lg:gap-4 justify-center items-center mx-auto">
         {articles.data.map((item)=>(
-          <div key={item.id} className="card w-[23rem] mx-auto bg-primary text-primary-content">
+          <div key={item.id} className="card w-96 mx-auto bg-base-300 shadow-xl">
+  <figure >
+  {item.image && <img className="w-full h-[260px] object-cover bg-cover overflow-hidden" src={item.image} alt={item.title}/>}
+    </figure>
 <div className="card-body">
-  {item.image && <img className="w-screen h-[140px]" src={item.image} alt={item.title}/>}
   <div className="flex justify-between">
 
   <h2 className="card-title">{item.title}</h2>

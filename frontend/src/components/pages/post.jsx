@@ -27,38 +27,38 @@ useEffect(()=>{
 
 const imgURL = "https://rzgiicwrerqxfqppofjr.supabase.co/storage/v1/object/public/images/"
 
-const getImages = async ()=>{
-  const {data, error} = await supabase
-  .storage
-  .from('images')
-  .list(user?.id + "/", {
-    limit: 100,
-    offset: 0,
-    sortBy: {column: "name", order: "asc"}
-  })
-  if(data){
-    // setImage(data)  
-  }
-  else{
-    console.log("Could'nt fetch that image");
-  }
-}
+// const getImages = async ()=>{
+//   const {data, error} = await supabase
+//   .storage
+//   .from('images')
+//   .list(user?.id + "/", {
+//     limit: 100,
+//     offset: 0,
+//     sortBy: {column: "name", order: "asc"}
+//   })
+//   if(data){
+//     // setImage(data)  
+//   }
+//   else{
+//     console.log("Could'nt fetch that image");
+//   }
+// }
 
-const handleImage = async (e)=>{
-  let file = e.target.files[0]
-
+const handleImage = async (file)=>{
   const {data, error} = await supabase
   .storage
   .from('images')
   .upload(user.id + '/' + uuidv4(), file)
 
   if(data){
-    getImages()
-    setImage(data.path)
+    console.log("Image uploaded", data.path);
+    // getImages()
+   return data.path
   }
   else{
-    console.log("Error uploading image")
-    return file
+    console.log("Error uploading image", error.message)
+    throw new Error("Image failed to be uploaded")
+   
   }
 }
 
@@ -67,22 +67,28 @@ const createPost = async () => {
 
 
   try {
-    handleImage()
+
+    let imagePath = null
+
+    if(formData.image){
+      imagePath = await handleImage(formData.image)
+    }
+
     const { data: postData, error: postError } = await axios.post(apiUrl,{
       title: formData.title,
       author: formData.author,
       body: formData.body,
-      image: imgURL + image
+      image:imagePath? imgURL + imagePath : null
     });
 
-    console.log(imgURL + image);
+    console.log(imgURL + imagePath);
 
     if (postError) {
       throw new Error('Error saving blog post');
     }
 
     // Reset form data after successful submission
-    setFormData({ title: '', body: '', author: '', image: null });
+    setFormData({ title: '', body: '', author: '', image: '' });
     return postData
 
     // navigate('/home'); 
@@ -104,7 +110,7 @@ const mutation = useMutation(createPost, {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  mutation.mutate(formData);
+  mutation.mutate();
 };
 
 
@@ -129,7 +135,7 @@ const handleSubmit = (event) => {
     </div>
     <div class="mb-2">
       <label class="block text-slate-700 text-sm font-bold mb-2" for="password">Image</label>
-      <input onChange={(e) => handleImage(e)}  class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline" type="file"/>
+      <input onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}  class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline" type="file"/>
     </div>
     <div class="flex items-center justify-center">
       <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">{mutation.isLoading ? "Sending..." : "Submit"}</button>

@@ -24,21 +24,25 @@ function Articles() {
     if (isError) return <div>Error fetching article</div>
 
     return (
-        <div className="h-[100vh] max-w-md mx-auto flex items-center justify-center">
+        <div className="min-h-screen mx-auto flex items-center justify-center mt-9">
             {article && (
-                <div className="text-primary-content">
-                    <div className="card-body">
-                        <div className="flex justify-between">
-                            <h2 className="card-title">{article.title}</h2>
-                            <h2 className="font-bold text-sm text-warning">{moment(article.date).format('MMMM D, YYYY')}</h2>
+                <div className="w-[730px] text-primary-content">
+                     <div className="flex gap-y-9 flex-col p-8">
+                            <h2 className="card-title text-4xl text-center uppercase">{article.title}</h2>
+                            <h2 className="font-bold text-sm text-warning text-right">{moment(article.date).format('MMMM D, YYYY')}</h2>
                         </div>
+                     <figure>
+  {article.image && <img className="w-full mx-auto rounded-md h-[460px] bg-cover object-cover" src={article.image} alt={article.title}/>}
+    </figure>
+                    <div className="card-body px-9">
+                    
                         <p className="">{article.body}</p>
                         <div className="card-actions flex flex-col justify-end mt-10 text-sm text-">
                           {/* <h2 className="-mb-[10px]">Author</h2> */}
                            <p>~ {article.author}</p>
                         </div>
                         <a className="btn text-primary mt-8 w-1/2">
-                        <Link className="text-white" to="/home">See all articles...</Link>
+                        <Link className="text-white" to="/home">articles...</Link>
                         </a>
                     </div>
                 </div>

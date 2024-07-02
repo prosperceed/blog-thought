@@ -7,8 +7,8 @@ import bodyParser from "body-parser"
 
 const app = express()
 
-const supabaseUrl = "https://rzgiicwrerqxfqppofjr.supabase.co"
-const supabaseApi = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6Z2lpY3dyZXJxeGZxcHBvZmpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE1Nzg4NzgsImV4cCI6MjAyNzE1NDg3OH0.2VOZPs-W9OQE2P7TT0RkfBfOuolMgTNIuFO-oAggUCQ"
+const supabaseUrl = "https://vqpaklwgmlriqdzlyfqv.supabase.co"
+const supabaseApi = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxcGFrbHdnbWxyaXFkemx5ZnF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg2NzQwNDYsImV4cCI6MjAzNDI1MDA0Nn0.ZTUqUd-F7RbuczUl7IXVtDkFNrwFwZWY-ovWZ1c_LWA"
 
 const PORT = 3000 || process.env.PORT
 
@@ -101,11 +101,11 @@ app.get("/article/:id", async (req, res) => {
 
   app.post("/post", async (req, res)=>{
     try{
-      const {title, body, author} = req.body
+      const {title, body, author, image} = req.body
 
       const {data, error} = await supabase
       .from("blog")
-      .insert({title:title, body:body, author:author});
+      .insert({title, body, author, image});
 
       if(error){
         console.log("An error was encountered:", error.message)
