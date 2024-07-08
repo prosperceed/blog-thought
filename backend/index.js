@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
   // Enable CORS for development mode
 
   app.use(cors({
-    origin: '*',
+    origin: 'https://blog-thought.onrender.com',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
   }));
