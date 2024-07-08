@@ -37,7 +37,7 @@ const articles = useQuery({
   queryKey: ['/'],
 
   queryFn: async ()=>{
-    const response = await axios.get("https://blog-thought.onrender.com/", config)
+    const response = await axios.get("https://blog-thought.onrender.com/")
     const data = await response.data
     console.log(data);
     return data
@@ -67,26 +67,31 @@ return <h1>Error loading articles</h1>
     : (
       <>
       <Navbar/>
-      <div className="my-9 grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 grid-cols-1 h-[100vh] gap-3 lg:gap-4 justify-center items-center mx-auto">
-        {articles.data.map((item)=>(
-          <div key={item.id} className="card w-96 mx-auto bg-base-300 shadow-xl">
-  <figure >
-  {item.image && <img className="w-full h-[260px] object-cover bg-cover overflow-hidden" src={item.image} alt={item.title}/>}
-    </figure>
-<div className="card-body">
-  <div className="flex justify-between">
-
-  <h2 className="card-title">{item.title}</h2>
-<h2 className="font-bold text-sm text-warning">{moment(item.created_at).format('ll')}</h2>
-
-  </div>
-  <p style={textStyle} className="">{item.body}</p>
-  <div className="card-actions justify-end">
-    <button className="btn"><Link to={`/articles/${item.id}`}>Read now!</Link></button>
-  </div>
-</div>
-</div>
-        ))}
+      <div>
+        {articles.length == null ? (<div>Sorry, you have no article available here</div>) : (
+                <div className="my-9 grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 grid-cols-1 h-[100vh] gap-3 lg:gap-4 justify-center items-center mx-auto">
+                {articles.data.map((item)=>(
+                  
+                  <div key={item.id} className="card w-96 mx-auto bg-base-300 shadow-xl">
+          <figure >
+          {item.image && <img className="w-full h-[260px] object-cover bg-cover overflow-hidden" src={item.image} alt={item.title}/>}
+            </figure>
+        <div className="card-body">
+          <div className="flex justify-between">
+        
+          <h2 className="card-title">{item.title}</h2>
+        <h2 className="font-bold text-sm text-warning">{moment(item.created_at).format('ll')}</h2>
+        
+          </div>
+          <p style={textStyle} className="">{item.body}</p>
+          <div className="card-actions justify-end">
+            <button className="btn"><Link to={`/articles/${item.id}`}>Read now!</Link></button>
+          </div>
+        </div>
+        </div>
+                ))}
+              </div>
+        )}
       </div>
         {/* <Hero/> */}
       </>
