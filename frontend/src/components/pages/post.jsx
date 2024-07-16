@@ -25,7 +25,7 @@ useEffect(()=>{
 
 },[])
 
-const imgURL = "https://rzgiicwrerqxfqppofjr.supabase.co/storage/v1/object/public/images/"
+const imgURL = "https://vqpaklwgmlriqdzlyfqv.supabase.co/storage/v1/object/public/images/"
 
 // const getImages = async ()=>{
 //   const {data, error} = await supabase

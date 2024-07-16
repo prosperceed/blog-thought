@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
   // Enable CORS for development mode
 
   app.use(cors({
-    origin: 'https://blog-thought.onrender.com',
+    origin: 'https://blog-thought.onrender.com/',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
   }));
@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   // Replace with your frontend URL
-  res.header('Access-Control-Allow-Origin', 'https://blogthought.netlify.app'); 
+  res.header('Access-Control-Allow-Origin', 'https://blog-thought.onrender.com/'); 
   res.header('Access-Control-Allow-Credentials', true); // Allow credentials (cookies)
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Specify allowed methods
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Specify allowed headers
@@ -53,9 +53,9 @@ app.use((req, res, next) => {
 });
 
 
-app.get("/", async (req,res)=>{
+app.get("/home", async (req,res)=>{
   try{
-    const {data, error }=  await supabase
+    const {data, error } =  await supabase
     .from("blog")
     .select("*")
     if(error){
@@ -104,7 +104,7 @@ app.get("/article/:id", async (req, res) => {
   app.post("/post", async (req, res)=>{
     try{
       const {title, body, author, image} = req.body
-
+console.log(req.body);
       const {data, error} = await supabase
       .from("blog")
       .insert({title, body, author, image});
