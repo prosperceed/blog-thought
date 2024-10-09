@@ -30,8 +30,9 @@ else{
 }
 
 app.use(express.json())
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '300kb'}));
 app.use(bodyParser.urlencoded({extended: true}))
+
 
 
 // Middleware to store user data in req.user

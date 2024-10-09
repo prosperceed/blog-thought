@@ -38,7 +38,7 @@ const Home = () => {
     queryFn: async () => {
       const response = await axios.get("https://blog-thought.onrender.com/home");
       const data = await response.data;
-      console.log(data);
+      // console.log(data);
       return data;
     },
   });
@@ -79,38 +79,39 @@ const Home = () => {
             {articles.length != null ? (
               <div>Sorry, you have no article available here</div>
             ) : (
-              <div className="my-9 grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 grid-cols-1 h-[100vh] gap-3 lg:gap-4 justify-center items-center mx-auto">
+              <div className="py-4 grid md:grid-cols-2 lg:grid-cols-3 md:gap-2 grid-cols-1 h-96 gap-2 lg:gap-2 justify-center items-center mx-auto">
                 {articles.data.map((item) => (
-                  <div
-                    key={item.id}
-                    className="card w-96 mx-auto bg-base-300 shadow-xl"
-                  >
-                    <figure>
-                      {item.image && (
-                        <img
-                          className="w-full h-[260px] object-cover bg-cover overflow-hidden"
-                          src={item.image}
-                          alt={item.title}
-                        />
-                      )}
-                    </figure>
-                    <div className="card-body">
-                      <div className="flex justify-between">
-                        <h2 className="card-title">{item.title}</h2>
-                        <h2 className="font-bold text-sm text-warning">
-                          {moment(item.created_at).format("ll")}
-                        </h2>
-                      </div>
-                      <p style={textStyle} className="">
-                        {item.body}
-                      </p>
-                      <div className="card-actions justify-end">
-                        <button className="btn">
-                          <Link to={`/articles/${item.id}`}>Read now!</Link>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+          <div
+          key={item.id}
+          className="card my-3 w-[23rem] h-96 mx-auto bg-base-300 shadow-xl flex flex-col"
+        >
+          <figure className="h-2/5">
+            {item.image && (
+              <img
+                className="w-full h-full object-cover"
+                src={item.image}
+                alt={item.title}
+              />
+            )}
+          </figure>
+          <div className="card-body h-3/5 flex flex-col justify-between">
+            <div className="flex justify-between">
+              <h2 className="card-title text-lg font-bold">{item.title}</h2>
+              <h2 className="font-bold text-sm text-warning">
+                {moment(item.created_at).format("ll")}
+              </h2>
+            </div>
+            <p className="text-sm overflow-hidden flex-grow" style={textStyle}>
+              {item.body}
+            </p>
+            <div className="card-actions justify-end">
+              <button className="btn">
+                <Link to={`/articles/${item.id}`}>Read now!</Link>
+              </button>
+            </div>
+          </div>
+        </div>
+        
                 ))}
               </div>
             )}
